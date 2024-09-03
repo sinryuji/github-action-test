@@ -9,16 +9,20 @@ permissions:
   contents: read
 
 jobs:
-  check-branch:
-    if: contains(github.head_ref, 'release')
+  validate-branch:
+    if: startsWith(github.ref, 'refs/heads/release-') && github.ref != 'refs/heads/release-'
     runs-on: ubuntu-latest
     steps:
-      - name: Check branch
+      - name: Validate branch
         run: |
-          echo 'Passed the check to see if it was a release branch'
+          BRANCH_NAME=${GITHUB_REF#refs/heads/}
+          if [[ ! "$BRANCH_NAME" =~ ^release-[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]]; then
+            echo "Branch name does not match the pattern release-x.y.z"
+            exit 1
+          fi
 
   check-merged:
-    needs: check-branch
+    needs: validate-branch
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
