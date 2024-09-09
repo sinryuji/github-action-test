@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   validate-branch:
-    if: startsWith(${{ github.event.inputs.from_branch }}, 'release-')
+    if: startsWith(${{ github.head_ref }}, 'release-')
     runs-on: ubuntu-latest
     steps:
       - name: Validate branch
@@ -44,5 +44,7 @@ jobs:
       - name: extract version
         id: extract-version
         run: |
-          echo "version=$(echo "$(git show -s --format=%s)" | egrep -o '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}')" >> "$GITHUB_OUTPUT"
+          BRANCH_NAME=${{ github.head_ref }}
+          echo "version=$(echo $BRANCH_NAME | egrep -o '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}')" >> "$GITHUB_OUTPUT"
+          echo $GITHUB_OUTPUT
           
