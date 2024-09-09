@@ -45,6 +45,8 @@ jobs:
         id: extract-version
         run: |
           BRANCH_NAME=${{ github.head_ref }}
+          echo $BRANCH_NAME
+          echo $(echo $BRANCH_NAME | egrep -o '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}')
           echo "version=$(echo $BRANCH_NAME | egrep -o '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}')" >> "$GITHUB_OUTPUT"
-          echo $GITHUB_OUTPUT
+
           
