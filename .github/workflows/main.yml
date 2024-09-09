@@ -15,7 +15,7 @@ jobs:
     steps:
       - name: Validate branch
         run: |
-          BRANCH_NAME=${{ github.event.inputs.from_branch }
+          BRANCH_NAME=${{ github.event.inputs.from_branch }}
           if [[ ! "$BRANCH_NAME" =~ ^release-[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]]; then
             echo "Branch name does not match the pattern release-x.y.z"
             exit 1
