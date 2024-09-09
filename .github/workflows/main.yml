@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   validate-branch:
-    if: startsWith(github.ref, 'refs/heads/release-')
+    if: startsWith(${{ github.event.inputs.from_branch }}, 'release-')
     runs-on: ubuntu-latest
     steps:
       - name: Validate branch
